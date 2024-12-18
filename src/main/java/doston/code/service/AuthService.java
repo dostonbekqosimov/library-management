@@ -29,7 +29,6 @@ public class AuthService {
 
     private final ProfileRepository profileRepository;
     private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     public JwtResponseDTO login(String username, String password) {
@@ -62,15 +61,5 @@ public class AuthService {
         }
     }
 
-    public ProfileDTO createLibrarianProfile(@Valid CreateLibrarianProfileDTO profileDTO) {
-        Profile profile = new Profile();
-        profile.setUsername(profileDTO.username());
-        profile.setPassword(bCryptPasswordEncoder.encode(profileDTO.password()));
-        profile.setRole(ProfileRole.ROLE_LIBRARIAN);
-        profile.setWorkTime(profileDTO.workTime());
-        profile.setCreatedDate(LocalDateTime.now());
-        profile.setVisible(true);
-        Profile savedProfile = profileRepository.save(profile);
-        return ProfileMapper.INSTANCE.toDto(savedProfile);
-    }
+
 }

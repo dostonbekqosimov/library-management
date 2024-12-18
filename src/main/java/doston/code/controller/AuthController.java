@@ -27,12 +27,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(loginDTO.login(), loginDTO.password()));
     }
 
-    @PostMapping("/librarians")
-    public ResponseEntity<ProfileDTO> createLibrarianProfile(
-            @RequestBody @Valid CreateLibrarianProfileDTO profileDTO
-    ) {
-        ProfileDTO createdProfile = authService.createLibrarianProfile(profileDTO);
-        return ResponseEntity.ok(createdProfile);
-    }
+
+
+
 
 }

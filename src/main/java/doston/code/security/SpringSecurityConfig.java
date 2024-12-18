@@ -53,7 +53,7 @@ public class SpringSecurityConfig {
             request.requestMatchers("/api/v1/auth/login").permitAll();
 
 
-            request.requestMatchers("/api/v1/auth/librarians").hasRole("ADMIN");
+            request.requestMatchers("/api/v1/librarians").hasAnyRole("ADMIN", "LIBRARIAN");
             request.anyRequest().authenticated();
 
         }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

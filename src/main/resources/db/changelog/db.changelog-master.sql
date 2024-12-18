@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset your_name:1
+-- changeset doston:1
 -- Create the profile table if it does not exist
 CREATE TABLE IF NOT EXISTS profile (
                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
