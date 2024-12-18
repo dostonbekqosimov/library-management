@@ -1,8 +1,7 @@
 package doston.code.controller;
 
-import doston.code.dto.GenreRequestDTO;
-import doston.code.dto.GenreResponseDTO;
-import doston.code.entity.Genre;
+import doston.code.dto.request.GenreRequestDTO;
+import doston.code.dto.response.GenreResponseDTO;
 import doston.code.service.GenreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,15 +1,12 @@
 package doston.code.service;
 
-import doston.code.dto.GenreRequestDTO;
-import doston.code.dto.GenreResponseDTO;
+import doston.code.dto.request.GenreRequestDTO;
+import doston.code.dto.response.GenreResponseDTO;
 import doston.code.entity.Genre;
-import doston.code.entity.Profile;
 import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.GenreMapper;
-import doston.code.mapper.ProfileMapper;
 import doston.code.repository.GenreRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package doston.code.controller;
 
-import doston.code.dto.CreateProfileDTO;
-import doston.code.dto.ProfileDTO;
+import doston.code.dto.request.ProfileRequestDTO;
+import doston.code.dto.response.ProfileDTO;
 import doston.code.service.LibrarianService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class LibrarianController {
 
     @PostMapping("")
     public ResponseEntity<ProfileDTO> createLibrarianProfile(
-            @RequestBody @Valid CreateProfileDTO profileDTO
+            @RequestBody @Valid ProfileRequestDTO profileDTO
     ) {
         ProfileDTO createdProfile = librarianService.createLibrarianProfile(profileDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProfile);

@@ -1,4 +1,4 @@
-package doston.code.dto;
+package doston.code.dto.response;
 
 import java.time.LocalDateTime;
 

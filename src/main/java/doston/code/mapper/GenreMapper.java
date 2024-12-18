@@ -1,6 +1,6 @@
 package doston.code.mapper;
 
-import doston.code.dto.GenreResponseDTO;
+import doston.code.dto.response.GenreResponseDTO;
 import doston.code.entity.Genre;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

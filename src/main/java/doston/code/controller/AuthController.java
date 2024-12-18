@@ -1,8 +1,7 @@
 package doston.code.controller;
 
-import doston.code.dto.JwtResponseDTO;
-import doston.code.dto.LoginDTO;
-import doston.code.dto.ProfileDTO;
+import doston.code.dto.response.JwtResponseDTO;
+import doston.code.dto.request.LoginDTO;
 import doston.code.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

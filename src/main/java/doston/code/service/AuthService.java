@@ -1,7 +1,7 @@
 package doston.code.service;
 
 
-import doston.code.dto.JwtResponseDTO;
+import doston.code.dto.response.JwtResponseDTO;
 import doston.code.exception.UnauthorizedException;
 import doston.code.repository.ProfileRepository;
 import doston.code.security.CustomUserDetails;

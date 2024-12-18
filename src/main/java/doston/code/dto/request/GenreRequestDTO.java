@@ -1,4 +1,4 @@
-package doston.code.dto;
+package doston.code.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
