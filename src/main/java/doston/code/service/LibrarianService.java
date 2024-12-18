@@ -22,7 +22,7 @@ public class LibrarianService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ProfileRepository profileRepository;
-    private final ProfileMapper profileMapper = ProfileMapper.INSTANCE;
+    private final ProfileMapper profileMapper;
 
 
     public ProfileDTO createLibrarianProfile(@Valid ProfileRequestDTO profileDTO) {

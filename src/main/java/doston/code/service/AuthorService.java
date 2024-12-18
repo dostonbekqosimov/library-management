@@ -18,7 +18,7 @@ import java.util.List;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
+    private final AuthorMapper authorMapper;
 
     public AuthorResponseDTO createAuthor(AuthorRequestDTO authorRequestDTO) {
 
@@ -40,6 +40,11 @@ public class AuthorService {
 
         String firstName = authorRequestDTO.firstName();
         String lastName = authorRequestDTO.lastName();
+
+        if (firstName.equals(oldAuthor.getFirstName()) && lastName.equals(oldAuthor.getLastName())) {
+            return authorMapper.toDto(oldAuthor);
+        }
+
         validateAuthorName(firstName, lastName);
 
         oldAuthor.setFirstName(firstName);
@@ -51,6 +56,8 @@ public class AuthorService {
     }
 
     public List<AuthorResponseDTO> getAllAuthors() {
+
+        // buyoqda har doim bitta user borligiga empty ga tekshirmadim.
         List<Author> authors = authorRepository.findAllBy();
         return authors.stream().map(authorMapper::toDto).toList();
     }
@@ -72,7 +79,7 @@ public class AuthorService {
         }
     }
 
-    private Boolean existsById(Long authorId) {
+    public Boolean existsById(Long authorId) {
 
         if (authorId == null) {
 
