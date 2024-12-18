@@ -56,6 +56,8 @@ public class AuthorService {
     }
 
     public List<AuthorResponseDTO> getAllAuthors() {
+
+        // buyoqda har doim bitta user borligiga empty ga tekshirmadim.
         List<Author> authors = authorRepository.findAllBy();
         return authors.stream().map(authorMapper::toDto).toList();
     }

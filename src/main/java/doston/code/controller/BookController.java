@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/books")
 @RequiredArgsConstructor
@@ -29,6 +31,14 @@ public class BookController {
                                                           @RequestBody @Valid BookRequestDTO requestDTO) {
 
         BookResponseDTO response = bookService.updateBookById(bookId, requestDTO);
+        return ResponseEntity.ok().body(response);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BookResponseDTO>> getAllBooks(){
+
+        List<BookResponseDTO> response = bookService.getAllBooks();
         return ResponseEntity.ok().body(response);
 
     }

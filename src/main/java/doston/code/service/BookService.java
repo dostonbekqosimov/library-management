@@ -3,16 +3,15 @@ package doston.code.service;
 import doston.code.dto.request.BookRequestDTO;
 import doston.code.dto.response.BookResponseDTO;
 import doston.code.entity.Book;
-import doston.code.entity.Book;
 import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.BookMapper;
 import doston.code.repository.BookRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +55,17 @@ public class BookService {
 
     }
 
+    public List<BookResponseDTO> getAllBooks() {
+
+        List<Book> books = bookRepository.findAllBy();
+
+        if (books.isEmpty()) {
+            throw new DataNotFoundException("There is no available book");
+        }
+
+        return books.stream().map(bookMapper::toDto).toList();
+    }
+
 
     private Book getEntityById(Long bookId) {
         if (bookId == null) {
@@ -65,7 +75,6 @@ public class BookService {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new DataNotFoundException("Book not found with ID: " + bookId));
     }
-
 
 
     private void validateRequestData(BookRequestDTO requestDTO, Long bookId) {
@@ -85,5 +94,6 @@ public class BookService {
             throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
         }
     }
+
 
 }
