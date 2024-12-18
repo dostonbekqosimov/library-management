@@ -1,0 +1,20 @@
+### Create new Librarian
+POST http://localhost:8080/api/v1/librarians
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "username": "<librarian_username>",
+  "password": "<librarian_password>",
+  "workTime": "<work_time_type>"
+}
+
+### Get All Librarians
+GET http://localhost:8080/api/v1/librarians
+Content-Type: application/json
+Authorization: Bearer <token>
+
+### Get Librarian by ID
+GET http://localhost:8080/api/v1/librarians/<librarian_id>
+Content-Type: application/json
+Authorization: Bearer <token>

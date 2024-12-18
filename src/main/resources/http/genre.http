@@ -1,0 +1,32 @@
+### Create new genre
+POST http://localhost:8080/api/v1/genres
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "title": "<genre_title>"
+}
+
+### Update genre by ID
+PATCH http://localhost:8080/api/v1/genres/<genre_id>
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "title": "<new_genre_title>"
+}
+
+### Get all genres
+GET http://localhost:8080/api/v1/genres
+Content-Type: application/json
+Authorization: Bearer <token>
+
+### Get genre by ID
+GET http://localhost:8080/api/v1/genres/<genre_id>
+Content-Type: application/json
+Authorization: Bearer <token>
+
+### Delete genre by ID
+DELETE http://localhost:8080/api/v1/genres/<genre_id>
+Content-Type: application/json
+Authorization: Bearer <token>
