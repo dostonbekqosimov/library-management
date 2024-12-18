@@ -25,16 +25,7 @@ public class BookService {
 
     public BookResponseDTO addBook(BookRequestDTO requestDTO) {
 
-        String title = requestDTO.title();
-        validateBookTitle(title);
-
-        if (!authorService.existsById(requestDTO.authorId())) {
-            throw new DataNotFoundException("Author not found with ID: " + requestDTO.authorId());
-        }
-
-        if (!genreService.existsById(requestDTO.genreId())) {
-            throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
-        }
+        validateRequestData(requestDTO);
 
         Book newBook = bookMapper.toEntity(requestDTO);
 
@@ -65,6 +56,20 @@ public class BookService {
 
         if (isTitleExist(title)) {
             throw new DataExistsException("Book with title: " + title + " already exists");
+        }
+    }
+
+
+    private void validateRequestData(BookRequestDTO requestDTO) {
+
+        validateBookTitle(requestDTO.title());
+
+        if (!authorService.existsById(requestDTO.authorId())) {
+            throw new DataNotFoundException("Author not found with ID: " + requestDTO.authorId());
+        }
+
+        if (!genreService.existsById(requestDTO.genreId())) {
+            throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
         }
     }
 }
