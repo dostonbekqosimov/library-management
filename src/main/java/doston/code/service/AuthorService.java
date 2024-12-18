@@ -40,6 +40,11 @@ public class AuthorService {
 
         String firstName = authorRequestDTO.firstName();
         String lastName = authorRequestDTO.lastName();
+
+        if (firstName.equals(oldAuthor.getFirstName()) && lastName.equals(oldAuthor.getLastName())) {
+            return authorMapper.toDto(oldAuthor);
+        }
+
         validateAuthorName(firstName, lastName);
 
         oldAuthor.setFirstName(firstName);

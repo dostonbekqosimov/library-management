@@ -25,7 +25,7 @@ public class BookService {
 
     public BookResponseDTO addBook(BookRequestDTO requestDTO) {
 
-        validateRequestData(requestDTO);
+        validateRequestData(requestDTO, null);
 
         Book newBook = bookMapper.toEntity(requestDTO);
 
@@ -36,33 +36,46 @@ public class BookService {
         return bookMapper.toDto(savedBook);
     }
 
-    private Boolean isTitleExist(String title) {
-        if (title == null || title.trim().isEmpty()) {
-            throw new IllegalArgumentException("Book title cannot be null or empty");
-        }
-        return bookRepository.existsByTitle(title);
+
+    public BookResponseDTO updateBookById(Long bookId, BookRequestDTO requestDTO) {
+
+        Book oldBook = getEntityById(bookId);
+
+        validateRequestData(requestDTO, bookId);
+
+        oldBook.setTitle(requestDTO.title());
+        oldBook.setAuthorId(requestDTO.authorId());
+        oldBook.setGenreId(requestDTO.genreId());
+        oldBook.setCount(requestDTO.count());
+        oldBook.setUpdatedDate(LocalDateTime.now());
+
+        Book savedBook = bookRepository.save(oldBook);
+
+        return bookMapper.toDto(savedBook);
+
+
     }
 
-    private Book getEntityById(Long BookId) {
-        if (BookId == null) {
+
+    private Book getEntityById(Long bookId) {
+        if (bookId == null) {
             throw new IllegalArgumentException("Book ID cannot be null");
         }
 
-        return bookRepository.findById(BookId)
-                .orElseThrow(() -> new DataNotFoundException("Book not found with ID: " + BookId));
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new DataNotFoundException("Book not found with ID: " + bookId));
     }
 
-    private void validateBookTitle(String title) {
 
-        if (isTitleExist(title)) {
-            throw new DataExistsException("Book with title: " + title + " already exists");
+
+    private void validateRequestData(BookRequestDTO requestDTO, Long bookId) {
+
+
+        Book existingBook = bookRepository.findByTitle(requestDTO.title());
+        if (existingBook != null && (!existingBook.getId().equals(bookId))) {
+            throw new DataExistsException("Book with title: " + requestDTO.title() + " already exists");
         }
-    }
 
-
-    private void validateRequestData(BookRequestDTO requestDTO) {
-
-        validateBookTitle(requestDTO.title());
 
         if (!authorService.existsById(requestDTO.authorId())) {
             throw new DataNotFoundException("Author not found with ID: " + requestDTO.authorId());
@@ -72,4 +85,5 @@ public class BookService {
             throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
         }
     }
+
 }

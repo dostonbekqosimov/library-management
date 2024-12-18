@@ -40,6 +40,10 @@ public class GenreService {
         Genre oldGenre = getEntityById(id);
 
         String title = genreRequestDTO.title();
+
+        if (title.equals(oldGenre.getTitle())) {
+            return genreMapper.toDto(oldGenre);
+        }
         validateGenreTitle(title);
 
         oldGenre.setTitle(title);
