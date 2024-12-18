@@ -22,13 +22,22 @@ public class LibrarianController {
             @RequestBody @Valid CreateLibrarianProfileDTO profileDTO
     ) {
         ProfileDTO createdProfile = librarianService.createLibrarianProfile(profileDTO);
-        return ResponseEntity.ok(createdProfile);
+        return ResponseEntity.status(201).body(createdProfile);
     }
 
     @GetMapping
     public ResponseEntity<List<ProfileDTO>> getAllLibrarians() {
         return ResponseEntity.ok().body(librarianService.getAllLibrarians());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfileDTO> getLibrarianById(@PathVariable("id") Long librarianId){
+
+        return ResponseEntity.ok().body(librarianService.getById(librarianId));
+
+    }
+
+
 
 
 

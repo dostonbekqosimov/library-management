@@ -53,7 +53,10 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> exceptionHandler(RuntimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
 
 }

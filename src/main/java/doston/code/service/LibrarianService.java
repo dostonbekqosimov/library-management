@@ -54,11 +54,30 @@ public class LibrarianService {
 
     }
 
+    public ProfileDTO getById(Long librarianId) {
+
+        Profile profile = getEntityById(librarianId);
+
+        return ProfileMapper.INSTANCE.toDto(profile);
+
+
+    }
+
     private Boolean isUserNameExist(String userName) {
         if (userName == null || userName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty");
+            throw new IllegalArgumentException("username cannot be null or empty");
         }
         return profileRepository.existsByUsername(userName);
     }
+
+    private Profile getEntityById(Long librarianId) {
+        if (librarianId == null) {
+            throw new IllegalArgumentException("Librarian ID cannot be null");
+        }
+
+        return profileRepository.findById(librarianId)
+                .orElseThrow(() -> new DataNotFoundException("Librarian not found with ID: " + librarianId));
+    }
+
 
 }
