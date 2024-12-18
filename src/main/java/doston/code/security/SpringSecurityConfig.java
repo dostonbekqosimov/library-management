@@ -32,6 +32,19 @@ public class SpringSecurityConfig {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    public static final String[] AUTH_WHITELIST = {
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html"
+    };
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -50,11 +63,14 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(request -> {
-            request.requestMatchers("/api/v1/auth/login").permitAll();
+            request
+                    .requestMatchers(AUTH_WHITELIST).permitAll()
+                    .requestMatchers("/api/v1/auth/login").permitAll()
 
+                    .requestMatchers("/api/v1/librarians", "/api/v1/librarians/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                    .requestMatchers("/api/v1/genres", "/api/v1/genres/**").hasAnyRole("ADMIN", "LIBRARIAN")
 
-            request.requestMatchers("/api/v1/auth/librarians").hasRole("ADMIN");
-            request.anyRequest().authenticated();
+                    .anyRequest().authenticated();
 
         }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

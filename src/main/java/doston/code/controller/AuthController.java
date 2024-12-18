@@ -1,10 +1,10 @@
 package doston.code.controller;
 
-import doston.code.dto.CreateLibrarianProfileDTO;
 import doston.code.dto.JwtResponseDTO;
 import doston.code.dto.LoginDTO;
 import doston.code.dto.ProfileDTO;
 import doston.code.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "API endpoints for user authentication")
 public class AuthController {
 
     private final AuthService authService;
+
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDTO> login(
             @RequestBody @Valid LoginDTO loginDTO
     ) {
         return ResponseEntity.ok(authService.login(loginDTO.login(), loginDTO.password()));
-    }
-
-    @PostMapping("/librarians")
-    public ResponseEntity<ProfileDTO> createLibrarianProfile(
-            @RequestBody @Valid CreateLibrarianProfileDTO profileDTO
-    ) {
-        ProfileDTO createdProfile = authService.createLibrarianProfile(profileDTO);
-        return ResponseEntity.ok(createdProfile);
     }
 
 }
