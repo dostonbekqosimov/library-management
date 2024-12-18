@@ -1,4 +1,4 @@
-package doston.code.handler;
+package doston.code.config;
 
 
 import doston.code.exception.UnauthorizedException;
