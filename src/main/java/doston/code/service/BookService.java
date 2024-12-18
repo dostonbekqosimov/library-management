@@ -66,13 +66,21 @@ public class BookService {
         return books.stream().map(bookMapper::toDto).toList();
     }
 
+    public BookResponseDTO getBookById(Long bookId) {
+
+        Book book = getEntityById(bookId);
+
+        return bookMapper.toDto(book);
+
+    }
+
 
     private Book getEntityById(Long bookId) {
         if (bookId == null) {
             throw new IllegalArgumentException("Book ID cannot be null");
         }
 
-        return bookRepository.findById(bookId)
+        return bookRepository.findByIdAndVisibleTrue(bookId)
                 .orElseThrow(() -> new DataNotFoundException("Book not found with ID: " + bookId));
     }
 

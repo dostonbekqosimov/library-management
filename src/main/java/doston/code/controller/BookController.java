@@ -40,7 +40,13 @@ public class BookController {
 
         List<BookResponseDTO> response = bookService.getAllBooks();
         return ResponseEntity.ok().body(response);
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponseDTO> getBookById(@PathVariable("id") Long bookId){
+
+        BookResponseDTO response = bookService.getBookById(bookId);
+        return ResponseEntity.ok().body(response);
     }
 
 
