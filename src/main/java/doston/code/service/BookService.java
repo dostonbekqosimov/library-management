@@ -74,6 +74,22 @@ public class BookService {
 
     }
 
+    public void deleteBookById(Long bookId) {
+
+        if (existsById(bookId)) {
+            bookRepository.changeVisibility(bookId);
+        } else {
+            throw new DataNotFoundException("Book not found with ID: " + bookId);
+        }
+    }
+
+    public Boolean existsById(Long bookId) {
+        if (bookId == null) {
+            throw new IllegalArgumentException("book id cannot be null or empty");
+        }
+        return bookRepository.existsById(bookId);
+    }
+
 
     private Book getEntityById(Long bookId) {
         if (bookId == null) {
@@ -102,6 +118,7 @@ public class BookService {
             throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
         }
     }
+
 
 
 }
