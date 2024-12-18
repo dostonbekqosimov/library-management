@@ -23,4 +23,13 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     @Transactional
     @Query("update Book b set b.visible = false where b.id = :bookId")
     void changeVisibility(@Param("bookId") Long bookId);
+
+
+    @Query("SELECT b FROM Book b WHERE " +
+            "(:title IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))) AND " +
+            "(:author IS NULL OR " +
+            " LOWER(CONCAT(b.author.firstName, ' ', b.author.lastName)) LIKE LOWER(CONCAT('%', :author, '%')))")
+    List<Book> searchBooks(@Param("title") String title, @Param("author") String author);
+
+
 }

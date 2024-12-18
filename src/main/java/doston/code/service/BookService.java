@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +75,22 @@ public class BookService {
 
     }
 
+    public List<BookResponseDTO> searchBooks(String title, String author) {
+
+        if (title == null && author == null) {
+            throw new IllegalArgumentException("At least title or author name should be given");
+        }
+        List<Book> books = bookRepository.searchBooks(title, author);
+
+        if (books.isEmpty()) {
+            throw new DataNotFoundException("No matched book found");
+        }
+        return books.stream()
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+
     public void deleteBookById(Long bookId) {
 
         if (existsById(bookId)) {
@@ -118,7 +135,6 @@ public class BookService {
             throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
         }
     }
-
 
 
 }

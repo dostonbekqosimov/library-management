@@ -49,6 +49,16 @@ public class BookController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<BookResponseDTO>> searchBooks(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "author", required = false) String author) {
+
+        List<BookResponseDTO> response = bookService.searchBooks(title, author);
+        return ResponseEntity.ok().body(response);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long bookId){
 
