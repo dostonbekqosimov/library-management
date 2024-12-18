@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/librarians")
 @RequiredArgsConstructor
@@ -23,6 +25,11 @@ public class LibrarianController {
         return ResponseEntity.ok(createdProfile);
     }
 
-   // bazi api lar qo'shamiz keyinroq(get all, get by id, update so on)
+    @GetMapping
+    public ResponseEntity<List<ProfileDTO>> getAllLibrarians() {
+        return ResponseEntity.ok().body(librarianService.getAllLibrarians());
+    }
+
+
 
 }
