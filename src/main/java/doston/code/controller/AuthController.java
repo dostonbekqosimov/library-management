@@ -1,7 +1,9 @@
 package doston.code.controller;
 
+import doston.code.dto.CreateLibrarianProfileDTO;
 import doston.code.dto.JwtResponseDTO;
 import doston.code.dto.LoginDTO;
+import doston.code.dto.ProfileDTO;
 import doston.code.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,14 @@ public class AuthController {
             @RequestBody @Valid LoginDTO loginDTO
     ) {
         return ResponseEntity.ok(authService.login(loginDTO.getLogin(), loginDTO.getPassword()));
+    }
+
+    @PostMapping("/librarians")
+    public ResponseEntity<ProfileDTO> createLibrarianProfile(
+            @RequestBody @Valid CreateLibrarianProfileDTO profileDTO
+    ) {
+        ProfileDTO createdProfile = authService.createLibrarianProfile(profileDTO);
+        return ResponseEntity.ok(createdProfile);
     }
 
 }

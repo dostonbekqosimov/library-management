@@ -23,8 +23,11 @@ public class Profile {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role",length = 50)
+    @Column(name = "role", length = 50)
     private ProfileRole role;
+
+    @Column(name = "work_time")
+    private String workTime;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
