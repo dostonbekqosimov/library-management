@@ -18,7 +18,7 @@ import java.util.List;
 public class GenreService {
 
     private final GenreRepository genreRepository;
-    private final GenreMapper genreMapper = GenreMapper.INSTANCE;
+    private final GenreMapper genreMapper;
 
 
     public GenreResponseDTO createGenre(GenreRequestDTO genreRequestDTO) {
@@ -76,7 +76,7 @@ public class GenreService {
     }
 
 
-    private Boolean existsById(Long genreId) {
+    public Boolean existsById(Long genreId) {
         if (genreId == null) {
             throw new IllegalArgumentException("genre id cannot be null or empty");
         }
@@ -86,7 +86,7 @@ public class GenreService {
 
     private Boolean isTitleExist(String title) {
         if (title == null || title.trim().isEmpty()) {
-            throw new IllegalArgumentException("genre cannot be null or empty");
+            throw new IllegalArgumentException("genre title cannot be null or empty");
         }
         return genreRepository.existsByTitle(title);
     }

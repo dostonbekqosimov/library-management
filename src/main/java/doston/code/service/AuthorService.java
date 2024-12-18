@@ -18,7 +18,7 @@ import java.util.List;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
+    private final AuthorMapper authorMapper;
 
     public AuthorResponseDTO createAuthor(AuthorRequestDTO authorRequestDTO) {
 
@@ -72,7 +72,7 @@ public class AuthorService {
         }
     }
 
-    private Boolean existsById(Long authorId) {
+    public Boolean existsById(Long authorId) {
 
         if (authorId == null) {
 
