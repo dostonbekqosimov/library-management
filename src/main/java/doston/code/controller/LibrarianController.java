@@ -5,6 +5,7 @@ import doston.code.dto.ProfileDTO;
 import doston.code.service.LibrarianService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class LibrarianController {
             @RequestBody @Valid CreateProfileDTO profileDTO
     ) {
         ProfileDTO createdProfile = librarianService.createLibrarianProfile(profileDTO);
-        return ResponseEntity.status(201).body(createdProfile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProfile);
     }
 
     @GetMapping

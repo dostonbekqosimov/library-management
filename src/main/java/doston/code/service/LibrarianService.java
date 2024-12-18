@@ -23,6 +23,7 @@ public class LibrarianService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ProfileRepository profileRepository;
+    private final ProfileMapper profileMapper = ProfileMapper.INSTANCE;
 
 
     public ProfileDTO createLibrarianProfile(@Valid CreateProfileDTO profileDTO) {
@@ -32,10 +33,9 @@ public class LibrarianService {
             throw new DataExistsException("Librarian with username " + username + " already exists");
         }
 
-        if (profileDTO.workTime() == null){
+        if (profileDTO.workTime() == null) {
             throw new IllegalArgumentException("working time cannot be null or empty");
         }
-
 
 
         Profile profile = new Profile();
@@ -45,8 +45,9 @@ public class LibrarianService {
         profile.setWorkTime(profileDTO.workTime());
         profile.setCreatedDate(LocalDateTime.now());
         profile.setVisible(true);
+
         Profile savedProfile = profileRepository.save(profile);
-        return ProfileMapper.INSTANCE.toDto(savedProfile);
+        return profileMapper.toDto(savedProfile);
     }
 
     public List<ProfileDTO> getAllLibrarians() {
