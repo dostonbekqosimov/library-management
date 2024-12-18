@@ -1,22 +1,21 @@
 package doston.code.service;
 
-import doston.code.dto.CreateLibrarianProfileDTO;
+import doston.code.dto.CreateProfileDTO;
 import doston.code.dto.ProfileDTO;
 import doston.code.entity.Profile;
 import doston.code.enums.ProfileRole;
+import doston.code.enums.WorkTime;
 import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.ProfileMapper;
 import doston.code.repository.ProfileRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +25,18 @@ public class LibrarianService {
     private final ProfileRepository profileRepository;
 
 
-
-    public ProfileDTO createLibrarianProfile(@Valid CreateLibrarianProfileDTO profileDTO) {
+    public ProfileDTO createLibrarianProfile(@Valid CreateProfileDTO profileDTO) {
 
         String username = profileDTO.username();
-      if ( isUserNameExist(username)){
-          throw new DataExistsException("Librarian with username " + username + " already exists");
-      }
+        if (isUserNameExist(username)) {
+            throw new DataExistsException("Librarian with username " + username + " already exists");
+        }
+
+        if (profileDTO.workTime() == null){
+            throw new IllegalArgumentException("working time cannot be null or empty");
+        }
+
+
 
         Profile profile = new Profile();
         profile.setUsername(profileDTO.username());

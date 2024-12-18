@@ -1,6 +1,7 @@
 package doston.code.entity;
 
 import doston.code.enums.ProfileRole;
+import doston.code.enums.WorkTime;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
 import lombok.Data;
@@ -26,8 +27,9 @@ public class Profile {
     @Column(name = "role", length = 50)
     private ProfileRole role;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "work_time")
-    private String workTime;
+    private WorkTime workTime;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
