@@ -1,10 +1,11 @@
 package doston.code.dto;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class LoginDTO {
 
-    private String login;
-    private String password;
+public record LoginDTO(
+        @NotBlank String login,
+        @NotBlank String password
+) {
 }
+

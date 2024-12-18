@@ -5,12 +5,20 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
+
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class JwtResponseDTO {
-    private String token;
-    private String type = "Bearer";
-    private String refreshToken;
-    private String username;
-    private List<String> roles;
+public record JwtResponseDTO(
+        String token,
+        String type,
+        String refreshToken,
+        String username,
+        List<String> roles
+) {
+    // Default constructor to set the type field to "Bearer" as it's a constant
+    public JwtResponseDTO {
+        if (type == null) {
+            type = "Bearer";
+        }
+    }
 }

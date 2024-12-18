@@ -24,7 +24,7 @@ public class AuthController {
     public ResponseEntity<JwtResponseDTO> login(
             @RequestBody @Valid LoginDTO loginDTO
     ) {
-        return ResponseEntity.ok(authService.login(loginDTO.getLogin(), loginDTO.getPassword()));
+        return ResponseEntity.ok(authService.login(loginDTO.login(), loginDTO.password()));
     }
 
     @PostMapping("/librarians")
