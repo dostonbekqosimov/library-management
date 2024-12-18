@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/genres")
 @RequiredArgsConstructor
@@ -30,6 +32,26 @@ public class GenreController {
         GenreResponseDTO updatedGenre = genreService.updateGenreById(id, genreRequestDTO);
         return ResponseEntity.ok(updatedGenre);
     }
+
+    @GetMapping
+    public ResponseEntity<List<GenreResponseDTO>> getAllGenres(){
+
+        return ResponseEntity.ok().body(genreService.getAllGenres());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GenreResponseDTO> getGenreById(@PathVariable("id") Long genreId){
+
+        return ResponseEntity.ok().body(genreService.getGenreById(genreId));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGenreById(@PathVariable("id") Long genreId) {
+
+            genreService.deleteGenreById(genreId);
+            return ResponseEntity.noContent().build();
+    }
+
 
 
 

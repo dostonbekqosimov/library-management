@@ -7,12 +7,14 @@ import doston.code.entity.Profile;
 import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.GenreMapper;
+import doston.code.mapper.ProfileMapper;
 import doston.code.repository.GenreRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +52,41 @@ public class GenreService {
         return genreMapper.toDto(updatedGenre);
     }
 
+    public List<GenreResponseDTO> getAllGenres() {
+
+        List<Genre> librarians = genreRepository.findAllBy();
+
+        return librarians.stream().map(genreMapper::toDto).toList();
+    }
+
+    public GenreResponseDTO getGenreById(Long genreId) {
+
+        Genre genre = getEntityById(genreId);
+
+        return genreMapper.toDto(genre);
+
+    }
+
+    public void deleteGenreById(Long genreId) {
+
+        if (existsById(genreId)) {
+            genreRepository.changeVisibility(genreId);
+        } else {
+            throw new DataNotFoundException("Genre not found with ID: " + genreId);
+        }
+
+
+    }
+
+
+    private Boolean existsById(Long genreId) {
+        if (genreId == null) {
+            throw new IllegalArgumentException("genre id cannot be null or empty");
+        }
+        return genreRepository.existsById(genreId);
+    }
+
+
     private Boolean isTitleExist(String title) {
         if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("genre cannot be null or empty");
@@ -59,7 +96,7 @@ public class GenreService {
 
     private Genre getEntityById(Long genreId) {
         if (genreId == null) {
-            throw new IllegalArgumentException("Librarian ID cannot be null");
+            throw new IllegalArgumentException("Genre ID cannot be null");
         }
 
         return genreRepository.findById(genreId)

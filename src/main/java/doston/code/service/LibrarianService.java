@@ -54,7 +54,7 @@ public class LibrarianService {
 
         List<Profile> librarians = profileRepository.findAllBy();
 
-        return librarians.stream().map(ProfileMapper.INSTANCE::toDto).toList();
+        return librarians.stream().map(profileMapper::toDto).toList();
 
 
     }
