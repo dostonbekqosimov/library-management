@@ -69,6 +69,8 @@ public class SpringSecurityConfig {
 
                     .requestMatchers("/api/v1/librarians", "/api/v1/librarians/**").hasAnyRole("ADMIN", "LIBRARIAN")
                     .requestMatchers("/api/v1/genres", "/api/v1/genres/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                    .requestMatchers("/api/v1/authors", "/api/v1/authors/**").hasAnyRole("ADMIN", "LIBRARIAN")
+
 
                     .anyRequest().authenticated();
 

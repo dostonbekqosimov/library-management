@@ -1,6 +1,6 @@
 package doston.code.mapper;
 
-import doston.code.dto.ProfileDTO;
+import doston.code.dto.response.ProfileDTO;
 import doston.code.entity.Profile;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

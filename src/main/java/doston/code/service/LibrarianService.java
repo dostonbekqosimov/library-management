@@ -1,10 +1,9 @@
 package doston.code.service;
 
-import doston.code.dto.CreateProfileDTO;
-import doston.code.dto.ProfileDTO;
+import doston.code.dto.request.ProfileRequestDTO;
+import doston.code.dto.response.ProfileDTO;
 import doston.code.entity.Profile;
 import doston.code.enums.ProfileRole;
-import doston.code.enums.WorkTime;
 import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.ProfileMapper;
@@ -26,7 +25,7 @@ public class LibrarianService {
     private final ProfileMapper profileMapper = ProfileMapper.INSTANCE;
 
 
-    public ProfileDTO createLibrarianProfile(@Valid CreateProfileDTO profileDTO) {
+    public ProfileDTO createLibrarianProfile(@Valid ProfileRequestDTO profileDTO) {
 
         String username = profileDTO.username();
         if (isUserNameExist(username)) {

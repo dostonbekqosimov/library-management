@@ -1,7 +1,6 @@
-package doston.code.dto;
+package doston.code.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 
 import java.util.List;
 

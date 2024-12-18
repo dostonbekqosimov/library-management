@@ -20,7 +20,6 @@ public class Author {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-
     private LocalDateTime createdDate;
 
     private LocalDateTime updatedDate;
