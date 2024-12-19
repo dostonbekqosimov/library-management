@@ -19,5 +19,6 @@ public interface GenreRepository extends CrudRepository<Genre, Long> {
     @Modifying
     @Transactional
     @Query("update Genre g set g.visible = false where g.id = :genreId")
-    void changeVisibility(@Param("genreId") Long genreId);
+    void changeVisibility(@Param("genreIdList") Long genreId);
+
 }

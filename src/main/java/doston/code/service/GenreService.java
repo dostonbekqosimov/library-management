@@ -87,6 +87,20 @@ public class GenreService {
         return genreRepository.existsById(genreId);
     }
 
+    public Boolean existsByIdList(List<Long> genreIdList) {
+        if (genreIdList == null || genreIdList.isEmpty()) {
+            throw new IllegalArgumentException("genre id list cannot be null or empty");
+        }
+
+        for (Long genreId : genreIdList) {
+            if (!existsById(genreId)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 
     private Boolean isTitleExist(String title) {
         if (title == null || title.trim().isEmpty()) {
