@@ -1,10 +1,12 @@
 package doston.code.controller;
 
+import doston.code.dto.request.BookFilterDTO;
 import doston.code.dto.request.BookRequestDTO;
 import doston.code.dto.response.BookResponseDTO;
 import doston.code.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +38,14 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookResponseDTO>> getAllBooks(){
+    public ResponseEntity<List<BookResponseDTO>> getAllBooks() {
 
         List<BookResponseDTO> response = bookService.getAllBooks();
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookResponseDTO> getBookById(@PathVariable("id") Long bookId){
+    public ResponseEntity<BookResponseDTO> getBookById(@PathVariable("id") Long bookId) {
 
         BookResponseDTO response = bookService.getBookById(bookId);
         return ResponseEntity.ok().body(response);
@@ -58,9 +60,18 @@ public class BookController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<BookResponseDTO>> filterArticles(
+            @RequestBody BookFilterDTO filterDTO) {
+
+        List<BookResponseDTO> books = bookService.filterBooks(filterDTO);
+        return ResponseEntity.ok().body(books);
+
+    }
+
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long bookId){
+    public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long bookId) {
 
         bookService.deleteBookById(bookId);
         return ResponseEntity.noContent().build();
