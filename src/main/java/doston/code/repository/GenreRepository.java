@@ -1,7 +1,6 @@
 package doston.code.repository;
 
 import doston.code.entity.Genre;
-import doston.code.entity.Profile;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

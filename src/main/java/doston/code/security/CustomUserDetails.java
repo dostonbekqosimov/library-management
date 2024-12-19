@@ -1,7 +1,7 @@
 package doston.code.security;
 
 
-import doston.code.entity.Profile;
+import doston.code.entity.Librarian;
 import doston.code.enums.ProfileRole;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,12 +22,12 @@ public class CustomUserDetails implements UserDetails {
     private final Boolean visible;
 
 
-    public CustomUserDetails(Profile profile) {
-        this.id = profile.getId();
-        this.password = profile.getPassword();
-        this.username = profile.getUsername();
-        this.role = profile.getRole();
-        this.visible = profile.getVisible();
+    public CustomUserDetails(Librarian librarian) {
+        this.id = librarian.getId();
+        this.password = librarian.getPassword();
+        this.username = librarian.getUsername();
+        this.role = librarian.getRole();
+        this.visible = librarian.getVisible();
     }
 
 

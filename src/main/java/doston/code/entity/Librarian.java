@@ -3,15 +3,14 @@ package doston.code.entity;
 import doston.code.enums.ProfileRole;
 import doston.code.enums.WorkTime;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "profile")
-public class Profile {
+@Table(name = "librarian")
+public class Librarian {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
 package doston.code.security;
-import doston.code.entity.Profile;
+import doston.code.entity.Librarian;
 import doston.code.exception.UnauthorizedException;
-import doston.code.repository.ProfileRepository;
+import doston.code.repository.LibrarianRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,19 +14,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
-    private final ProfileRepository profileRepository;
+    private final LibrarianRepository librarianRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Profile> optional = profileRepository.findByUsername(username);
+        Optional<Librarian> optional = librarianRepository.findByUsername(username);
 
         if (optional.isEmpty()){
             throw new UnauthorizedException("Login or password is wrong");
         }
-        Profile profile = optional.get();
+        Librarian librarian = optional.get();
 
 
-        return new CustomUserDetails(profile);
+        return new CustomUserDetails(librarian);
     }
 }

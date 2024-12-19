@@ -30,7 +30,7 @@ public class Member {
 
     @ManyToOne
     @JoinColumn(name = "created_by_id", updatable = false, insertable = false)
-    private Profile profile;
+    private Librarian librarian;
 
     private LocalDateTime createdDate;
 

@@ -3,7 +3,7 @@ package doston.code.service;
 
 import doston.code.dto.response.JwtResponseDTO;
 import doston.code.exception.UnauthorizedException;
-import doston.code.repository.ProfileRepository;
+import doston.code.repository.LibrarianRepository;
 import doston.code.security.CustomUserDetails;
 import doston.code.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final ProfileRepository profileRepository;
+    private final LibrarianRepository librarianRepository;
     private final AuthenticationManager authenticationManager;
 
 
     public JwtResponseDTO login(String username, String password) {
 
 
-        profileRepository.findByUsername(username)
+        librarianRepository.findByUsername(username)
                 .orElseThrow(() -> new UnauthorizedException("Login or password is wrong"));
 
 

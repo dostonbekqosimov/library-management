@@ -31,6 +31,8 @@ public class GenreService {
         newGenre.setCreatedDate(LocalDateTime.now());
         newGenre.setVisible(Boolean.TRUE);
 
+        genreRepository.save(newGenre);
+
         return genreMapper.toDto(newGenre);
     }
 
@@ -47,6 +49,8 @@ public class GenreService {
 
         oldGenre.setTitle(title);
         oldGenre.setUpdatedDate(LocalDateTime.now());
+
+        genreRepository.save(oldGenre);
 
         return genreMapper.toDto(oldGenre);
     }

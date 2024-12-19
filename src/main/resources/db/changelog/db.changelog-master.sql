@@ -1,8 +1,8 @@
 -- liquibase formatted sql
 
 -- changeset doston:1
--- Create the profile table if it does not exist
-CREATE TABLE IF NOT EXISTS profile (
+-- Create the librarian table if it does not exist
+CREATE TABLE IF NOT EXISTS librarian (
                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                        username VARCHAR(255) NOT NULL,
                                        password VARCHAR(255) NOT NULL,
@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS profile (
                                        visible BOOLEAN
 );
 
--- changeset your_name:2
--- Insert default admin profile if not already exists
-INSERT INTO profile (
+-- changeset doston:2
+-- Insert default admin librarian if not already exists
+INSERT INTO librarian (
     username,
     password,
     role,
@@ -28,6 +28,6 @@ SELECT
     TRUE
 WHERE NOT EXISTS (
     SELECT 1
-    FROM profile
+    FROM librarian
     WHERE username = 'admin'
 );

@@ -1,14 +1,13 @@
 package doston.code.controller;
 
 import doston.code.dto.request.PasswordUpdateDTO;
-import doston.code.dto.request.ProfileRequestDTO;
-import doston.code.dto.response.ProfileDTO;
+import doston.code.dto.request.LibrarianRequestDTO;
+import doston.code.dto.response.LibrarianDTO;
 import doston.code.service.LibrarianService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +17,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LibrarianController {
 
+    // update username ni ham qo'shish kerak
+
     private final LibrarianService librarianService;
 
     @PostMapping("")
-    public ResponseEntity<ProfileDTO> createLibrarianProfile(
-            @RequestBody @Valid ProfileRequestDTO profileDTO
+    public ResponseEntity<LibrarianDTO> createLibrarianProfile(
+            @RequestBody @Valid LibrarianRequestDTO profileDTO
     ) {
-        ProfileDTO createdProfile = librarianService.createLibrarianProfile(profileDTO);
+        LibrarianDTO createdProfile = librarianService.createLibrarianProfile(profileDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProfile);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProfileDTO>> getAllLibrarians() {
+    public ResponseEntity<List<LibrarianDTO>> getAllLibrarians() {
         return ResponseEntity.ok().body(librarianService.getAllLibrarians());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfileDTO> getLibrarianById(@PathVariable("id") Long librarianId) {
+    public ResponseEntity<LibrarianDTO> getLibrarianById(@PathVariable("id") Long librarianId) {
 
         return ResponseEntity.ok().body(librarianService.getById(librarianId));
 
