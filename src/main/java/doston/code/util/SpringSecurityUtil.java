@@ -22,12 +22,10 @@ public class SpringSecurityUtil {
         return userDetail.getId();
     }
 
-
-
-    public static ProfileRole getCurrentUserRole(){
-
-        CustomUserDetails userDetail = getCurrentEntity();
-
-        return userDetail.getRole();
+    public static ProfileRole getCurrentUserRole() {
+        return getCurrentEntity().getRole();
     }
+
+
+
 }

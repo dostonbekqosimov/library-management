@@ -3,6 +3,7 @@ package doston.code.config;
 
 import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
+import doston.code.exception.ForbiddenException;
 import doston.code.exception.UnauthorizedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -41,6 +42,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<?> exceptionHandler(UnauthorizedException e) {
         return ResponseEntity.status(401).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<?> exceptionHandler(ForbiddenException e) {
+        return ResponseEntity.status(403).body(e.getMessage());
     }
 
     @ExceptionHandler(DataNotFoundException.class)

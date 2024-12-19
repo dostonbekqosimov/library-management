@@ -1,5 +1,6 @@
 package doston.code.mapper;
 
+import doston.code.dto.request.ProfileRequestDTO;
 import doston.code.dto.response.ProfileDTO;
 import doston.code.entity.Profile;
 import org.mapstruct.Mapper;
@@ -15,14 +16,9 @@ public interface ProfileMapper {
     @Mapping(source = "role", target = "role")
     @Mapping(source = "workTime", target = "workTime")
     @Mapping(source = "createdDate", target = "createdDate")
-    @Mapping(source = "visible", target = "visible")
     ProfileDTO toDto(Profile profile);
 
-    @Mapping(source = "id", target = "id")
     @Mapping(source = "username", target = "username")
-    @Mapping(source = "role", target = "role")
     @Mapping(source = "workTime", target = "workTime")
-    @Mapping(source = "createdDate", target = "createdDate")
-    @Mapping(source = "visible", target = "visible")
-    Profile toEntity(ProfileDTO profileDto);
+    Profile toEntity(ProfileRequestDTO requestDTO);
 }

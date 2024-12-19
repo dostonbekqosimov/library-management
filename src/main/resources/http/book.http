@@ -6,7 +6,7 @@ Authorization: Bearer <token>
 {
   "title": "<book_title>",
   "authorId": 0,
-  "genreId": 0,
+  "genreIdList": [],
   "count": 0
 }
 
@@ -18,7 +18,7 @@ Authorization: Bearer <token>
 {
   "title": "<new_book_title>",
   "authorId": 0,
-  "genreId": 0,
+  "genreIdList": [],
   "count": 0
 }
 
@@ -32,10 +32,22 @@ GET http://localhost:8080/api/v1/books/<book_id>
 Content-Type: application/json
 Authorization: Bearer <token>
 
-### Search books by title and author (both first and last name or one)
-GET http://localhost:8080/api/v1/books/search?title=<book_title>&author=<author_name>
+### Search books by title and author(both first and last name or one)
+GET http://localhost:8080/api/v1/books/search?title=Hello&author=James
 Content-Type: application/json
 Authorization: Bearer <token>
+
+### Filter books with DTO parameters (availability have OUT_OF_STOCK, IN_STOCK, ALL params)
+GET http://localhost:8080/api/v1/books/filter
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "genreIds": [],
+  "availability": "OUT_OF_STOCK",
+  "authorName": "<author_name"
+}
+
 
 ### Delete book by ID
 DELETE http://localhost:8080/api/v1/books/<book_id>

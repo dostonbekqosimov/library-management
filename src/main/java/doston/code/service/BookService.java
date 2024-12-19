@@ -37,13 +37,13 @@ public class BookService {
         newBook.setCreatedDate(LocalDateTime.now());
         newBook.setVisible(Boolean.TRUE);
 
-        Book savedBook = bookRepository.save(newBook);
-        Long newBookId = savedBook.getId();
+        bookRepository.save(newBook);
+        Long newBookId = newBook.getId();
 
         bookGenreService.merge(newBookId, requestDTO.genreIdList());
 
 
-        return bookMapper.toDto(savedBook);
+        return bookMapper.toDto(newBook);
 
     }
 
@@ -59,11 +59,11 @@ public class BookService {
         oldBook.setCount(requestDTO.count());
         oldBook.setUpdatedDate(LocalDateTime.now());
 
-        Book savedBook = bookRepository.save(oldBook);
+        bookRepository.save(oldBook);
+
         bookGenreService.merge(bookId, requestDTO.genreIdList());
 
-
-        return bookMapper.toDto(savedBook);
+        return bookMapper.toDto(oldBook);
 
 
     }

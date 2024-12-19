@@ -8,6 +8,5 @@ public record ProfileDTO(
         String username,
         String role,
         String workTime,
-        LocalDateTime createdDate,
-        boolean visible
+        LocalDateTime createdDate
 ) {}
