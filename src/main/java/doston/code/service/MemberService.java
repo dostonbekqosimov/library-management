@@ -1,5 +1,6 @@
 package doston.code.service;
 
+import doston.code.mapper.MemberMapper;
 import doston.code.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,4 +10,5 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberMapper memberMapper;
 }

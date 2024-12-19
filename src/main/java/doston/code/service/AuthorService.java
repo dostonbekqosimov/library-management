@@ -31,11 +31,13 @@ public class AuthorService {
         newAuthor.setCreatedDate(LocalDateTime.now());
         newAuthor.setVisible(Boolean.TRUE);
 
-        Author savedAuthor = authorRepository.save(newAuthor);
-        return authorMapper.toDto(savedAuthor);
+        authorRepository.save(newAuthor);
+
+        return authorMapper.toDto(newAuthor);
     }
 
     public AuthorResponseDTO updateAuthorById(Long id, AuthorRequestDTO authorRequestDTO) {
+
         Author oldAuthor = getEntityById(id);
 
         String firstName = authorRequestDTO.firstName();
@@ -51,8 +53,9 @@ public class AuthorService {
         oldAuthor.setLastName(lastName);
         oldAuthor.setUpdatedDate(LocalDateTime.now());
 
-        Author updatedAuthor = authorRepository.save(oldAuthor);
-        return authorMapper.toDto(updatedAuthor);
+        authorRepository.save(oldAuthor);
+
+        return authorMapper.toDto(oldAuthor);
     }
 
     public List<AuthorResponseDTO> getAllAuthors() {

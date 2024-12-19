@@ -31,8 +31,9 @@ public class GenreService {
         newGenre.setCreatedDate(LocalDateTime.now());
         newGenre.setVisible(Boolean.TRUE);
 
-        Genre savedGenre = genreRepository.save(newGenre);
-        return genreMapper.toDto(savedGenre);
+        genreRepository.save(newGenre);
+
+        return genreMapper.toDto(newGenre);
     }
 
     public GenreResponseDTO updateGenreById(Long id, GenreRequestDTO genreRequestDTO) {
@@ -49,8 +50,9 @@ public class GenreService {
         oldGenre.setTitle(title);
         oldGenre.setUpdatedDate(LocalDateTime.now());
 
-        Genre updatedGenre = genreRepository.save(oldGenre);
-        return genreMapper.toDto(updatedGenre);
+        genreRepository.save(oldGenre);
+
+        return genreMapper.toDto(oldGenre);
     }
 
     public List<GenreResponseDTO> getAllGenres() {

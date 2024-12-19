@@ -19,8 +19,12 @@ public class Member {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "phone")
+    @Column(name = "phone", unique = true)
     private String phone;
+
+    @Column(name = "email", unique = true)
+    private String email;
+
 
     @Column(name = "membership_date")
     private LocalDate membershipDate;
@@ -30,7 +34,7 @@ public class Member {
 
     @ManyToOne
     @JoinColumn(name = "created_by_id", updatable = false, insertable = false)
-    private Profile profile;
+    private Librarian librarian;
 
     private LocalDateTime createdDate;
 
