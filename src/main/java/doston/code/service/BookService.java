@@ -3,7 +3,6 @@ package doston.code.service;
 import doston.code.dto.request.BookRequestDTO;
 import doston.code.dto.response.BookResponseDTO;
 import doston.code.entity.Book;
-import doston.code.exception.DataExistsException;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.BookMapper;
 import doston.code.repository.BookRepository;
@@ -21,11 +20,13 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
+    private final BookGenreService bookGenreService;
     private final BookMapper bookMapper;
 
+    // bunda 2 Book object yaratilinyabdi, shuni keyinroq optimize qilish kerak
     public BookResponseDTO addBook(BookRequestDTO requestDTO) {
 
-        validateRequestData(requestDTO, null);
+        validateRequestData(requestDTO);
 
         Book newBook = bookMapper.toEntity(requestDTO);
 
@@ -33,7 +34,13 @@ public class BookService {
         newBook.setVisible(Boolean.TRUE);
 
         Book savedBook = bookRepository.save(newBook);
+        Long newBookId = savedBook.getId();
+
+        bookGenreService.merge(newBookId, requestDTO.genreIdList());
+
+
         return bookMapper.toDto(savedBook);
+
     }
 
 
@@ -41,15 +48,16 @@ public class BookService {
 
         Book oldBook = getEntityById(bookId);
 
-        validateRequestData(requestDTO, bookId);
+        validateRequestData(requestDTO);
 
         oldBook.setTitle(requestDTO.title());
         oldBook.setAuthorId(requestDTO.authorId());
-        oldBook.setGenreId(requestDTO.genreId());
         oldBook.setCount(requestDTO.count());
         oldBook.setUpdatedDate(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(oldBook);
+        bookGenreService.merge(bookId, requestDTO.genreIdList());
+
 
         return bookMapper.toDto(savedBook);
 
@@ -118,22 +126,17 @@ public class BookService {
     }
 
 
-    private void validateRequestData(BookRequestDTO requestDTO, Long bookId) {
-
-
-        Book existingBook = bookRepository.findByTitle(requestDTO.title());
-        if (existingBook != null && (!existingBook.getId().equals(bookId))) {
-            throw new DataExistsException("Book with title: " + requestDTO.title() + " already exists");
-        }
+    private void validateRequestData(BookRequestDTO requestDTO) {
 
 
         if (!authorService.existsById(requestDTO.authorId())) {
             throw new DataNotFoundException("Author not found with ID: " + requestDTO.authorId());
         }
 
-        if (!genreService.existsById(requestDTO.genreId())) {
-            throw new DataNotFoundException("Genre not found with ID: " + requestDTO.genreId());
+        if (!genreService.existsByIdList(requestDTO.genreIdList())) {
+            throw new DataNotFoundException("One or more genres not found for IDs: " + requestDTO.genreIdList());
         }
+
     }
 
 

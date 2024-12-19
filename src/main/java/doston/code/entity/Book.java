@@ -25,13 +25,6 @@ public class Book {
     @JoinColumn(name = "author_id", updatable = false, insertable = false)
     private Author author;
 
-    @Column(name = "genre_id", nullable = false)
-    private Long genreId;
-
-    @ManyToOne
-    @JoinColumn(name = "genre_id", updatable = false, insertable = false)
-    private Genre genre;
-
     @Column(name = "count")
     private Integer count;
 
