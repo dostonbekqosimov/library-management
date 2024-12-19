@@ -1,11 +1,14 @@
 package doston.code.service;
 
+import doston.code.dto.request.BookFilterDTO;
 import doston.code.dto.request.BookRequestDTO;
 import doston.code.dto.response.BookResponseDTO;
 import doston.code.entity.Book;
 import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.BookMapper;
 import doston.code.repository.BookRepository;
+import doston.code.repository.custom.CustomBookRepository;
+import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final CustomBookRepository customBookRepository;
     private final AuthorService authorService;
     private final GenreService genreService;
     private final BookGenreService bookGenreService;
@@ -88,16 +92,35 @@ public class BookService {
         if (title == null && author == null) {
             throw new IllegalArgumentException("At least title or author name should be given");
         }
-        List<Book> books = bookRepository.searchBooks(title, author);
+
+        List<Book> books = customBookRepository.searchBooks(title, author);
 
         if (books.isEmpty()) {
             throw new DataNotFoundException("No matched book found");
         }
         return books.stream()
                 .map(bookMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
+
+    public List<BookResponseDTO> filterBooks(BookFilterDTO filterDTO) {
+
+        //nimagadur check qilishim kerak
+
+
+        List<Book> books = customBookRepository.filter(filterDTO);
+
+        if (books.isEmpty()) {
+            return List.of();
+        }
+
+        return books.stream()
+                .map(bookMapper::toDto)
+                .toList();
+
+
+    }
 
     public void deleteBookById(Long bookId) {
 
@@ -107,6 +130,7 @@ public class BookService {
             throw new DataNotFoundException("Book not found with ID: " + bookId);
         }
     }
+
 
     public Boolean existsById(Long bookId) {
         if (bookId == null) {
