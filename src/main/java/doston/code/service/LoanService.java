@@ -6,7 +6,9 @@ import doston.code.entity.Book;
 import doston.code.entity.Loan;
 import doston.code.enums.LoanStatus;
 import doston.code.exception.BadRequestException;
+import doston.code.exception.BookUnavailableException;
 import doston.code.exception.DataNotFoundException;
+import doston.code.exception.MemberActiveLoanException;
 import doston.code.mapper.LoanMapper;
 import doston.code.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +96,7 @@ public class LoanService {
 
         long activeLoans = loanRepository.countByBookIdAndStatus(bookId, LoanStatus.ISSUED);
         if (activeLoans >= book.getCount()) {
-            throw new BadRequestException("Book is not available for loan");
+            throw new BookUnavailableException("Book is not available for loan");
         }
     }
 
@@ -105,7 +107,7 @@ public class LoanService {
                 .anyMatch(loan -> loan.bookId().equals(bookId));
 
         if (hasActiveLoanForBook) {
-            throw new BadRequestException("Member already has an active loan for this book");
+            throw new MemberActiveLoanException("Member already has an active loan for this book");
         }
     }
     public List<LoanResponseDTO> getMemberActiveLoans(Long memberId) {

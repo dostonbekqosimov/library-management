@@ -1,0 +1,40 @@
+### Add new member
+POST http://localhost:8080/api/v1/members
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "<name>",
+  "phone": "<p_n>",
+  "email": "<email>",
+  "membershipDate": "yyyy-mm-dd"
+}
+
+### Update member by ID
+PUT http://localhost:8080/api/v1/members/<member_id>
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "name": "<name>",
+  "phone": "<p_n>",
+  "email": "<email>",
+  "membershipDate": "yyyy-mm-dd"
+}
+
+### Get All Members
+GET http://localhost:8080/api/v1/members
+Content-Type: application/json
+Authorization: Bearer <token>
+
+### Get a member by ID
+GET http://localhost:8080/api/v1/members/<member_ID>
+Content-Type: application/json
+Authorization: Bearer <token>
+
+### Delete a member by ID
+DELETE http://localhost:8080/api/v1/members/<member_ID>
+Content-Type: application/json
+Authorization: Bearer <token>
+
+

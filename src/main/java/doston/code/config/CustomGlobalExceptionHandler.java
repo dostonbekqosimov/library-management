@@ -42,6 +42,16 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return ResponseEntity.status(401).body(e.getMessage());
     }
 
+    @ExceptionHandler(MemberActiveLoanException.class)
+    public ResponseEntity<?> exceptionHandler(MemberActiveLoanException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+    @ExceptionHandler(BookUnavailableException.class)
+    public ResponseEntity<?> exceptionHandler(BookUnavailableException e) {
+        return ResponseEntity.status(409).body(e.getMessage());
+    }
+
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<?> exceptionHandler(BadRequestException e) {
         return ResponseEntity.status(400).body(e.getMessage());
