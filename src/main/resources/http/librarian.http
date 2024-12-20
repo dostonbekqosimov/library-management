@@ -19,18 +19,7 @@ GET http://localhost:8080/api/v1/librarians/<librarian_id>
 Content-Type: application/json
 Authorization: Bearer <token>
 
-### Change librarian password (admin)
-PATCH http://localhost:8080/api/v1/librarians/admin/<librarian_ID>/password
-Content-Type: application/json
-Authorization: Bearer <token>
-
-{
-  "oldPassword": "w",
-  "newPassword": "2",
-  "confirmPassword": "2"
-}
-
-### Change librarian password
+### Change librarian password (if librarian id is provided we check for admin)
 PATCH http://localhost:8080/api/v1/librarians/me/password
 Content-Type: application/json
 Authorization: Bearer <token>

@@ -65,36 +65,34 @@ public class LibrarianService {
 
     }
 
-    public String changeOwnPassword(PasswordUpdateDTO request) {
+    public String changePassword(PasswordUpdateDTO request, Long librarianId) {
 
         Long currentUserId = getCurrentUserId();
 
-        Librarian entity = getEntityById(currentUserId);
+        if (librarianId != null) {
 
-        if (!currentUserId.equals(entity.getId())){
-            throw new ForbiddenException("Unauthorized action: You cannot change another librarian's password.");
+            validateAdminAccess();
+
+            Librarian entity = getEntityById(librarianId);
+            validatePasswordChange(request, entity);
+            entity.setPassword(passwordEncoder.encode(request.newPassword()));
+            librarianRepository.save(entity);
+        } else {
+
+            Librarian entity = getEntityById(currentUserId);
+
+            if (!currentUserId.equals(entity.getId())) {
+                throw new ForbiddenException("Unauthorized action: You cannot change another librarian's password.");
+            }
+
+            validatePasswordChange(request, entity);
+            entity.setPassword(passwordEncoder.encode(request.newPassword()));
+            librarianRepository.save(entity);
+
         }
-
-        validatePasswordChange(request, entity);
-        entity.setPassword(passwordEncoder.encode(request.newPassword()));
-        librarianRepository.save(entity);
-
         return "Password changed successfully";
     }
 
-    public String resetPasswordByAdmin(PasswordUpdateDTO request, Long librarianId) {
-
-        validateAdminAccess();
-
-        Librarian entity = getEntityById(librarianId);
-
-        validatePasswordChange(request, entity);
-
-        entity.setPassword(passwordEncoder.encode(request.newPassword()));
-        librarianRepository.save(entity);
-        return "Password changed successfully";
-
-    }
 
     public void deleteLibrarianById(Long librarianId) {
 
