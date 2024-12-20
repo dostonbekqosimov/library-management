@@ -45,7 +45,7 @@ Authorization: Bearer <token>
 {
   "genreIds": [],
   "availability": "OUT_OF_STOCK",
-  "authorName": "<author_name"
+  "authorName": "<author_name>"
 }
 
 

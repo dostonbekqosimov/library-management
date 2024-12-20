@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface LibrarianMapper {
-    LibrarianMapper INSTANCE = Mappers.getMapper(LibrarianMapper.class);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "username", target = "username")

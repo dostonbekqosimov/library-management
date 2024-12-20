@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface GenreMapper {
-    GenreMapper INSTANCE = Mappers.getMapper(GenreMapper.class);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "title", target = "title")

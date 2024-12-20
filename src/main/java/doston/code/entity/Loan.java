@@ -15,9 +15,15 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "member_id")
+    private Long memberId;
+
     @ManyToOne
     @JoinColumn(name = "member_id", insertable = false, updatable = false)
     private Member member;
+
+    @Column(name = "book_id")
+    private Long bookId;
 
     @ManyToOne
     @JoinColumn(name = "book_id", updatable = false, insertable = false)

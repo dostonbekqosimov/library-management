@@ -24,6 +24,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -38,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String token = header.substring(7).trim();
-            JwtDTO dto = JwtUtil.decode(token);
+            JwtDTO dto = jwtUtil.decode(token);
 
             String login = dto.login();
             UserDetails userDetails = userDetailsService.loadUserByUsername(login);

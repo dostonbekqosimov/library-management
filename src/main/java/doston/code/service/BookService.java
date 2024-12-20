@@ -138,7 +138,7 @@ public class BookService {
     }
 
 
-    private Book getEntityById(Long bookId) {
+    public Book getEntityById(Long bookId) {
         if (bookId == null) {
             throw new IllegalArgumentException("Book ID cannot be null");
         }

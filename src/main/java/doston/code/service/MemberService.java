@@ -97,6 +97,19 @@ public class MemberService {
 
     }
 
+    public void validateMemberExists(Long memberId) {
+        if (!existsById(memberId)) {
+            throw new DataNotFoundException("Member not found with ID: " + memberId);
+        }
+    }
+
+    public Boolean existsById(Long memberId) {
+        if (memberId == null) {
+            throw new IllegalArgumentException("Member id cannot be null or empty");
+        }
+        return memberRepository.existsById(memberId);
+    }
+
     private Member getEntityById(Long memberId) {
         if (memberId == null) {
             throw new IllegalArgumentException("Member ID cannot be null");
