@@ -1,5 +1,6 @@
 package doston.code.service;
 
+import doston.code.dto.request.LibrarianUpdateDTO;
 import doston.code.dto.request.PasswordUpdateDTO;
 import doston.code.dto.request.LibrarianRequestDTO;
 import doston.code.dto.response.LibrarianDTO;
@@ -10,6 +11,7 @@ import doston.code.exception.DataNotFoundException;
 import doston.code.exception.ForbiddenException;
 import doston.code.mapper.LibrarianMapper;
 import doston.code.repository.LibrarianRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -93,6 +95,22 @@ public class LibrarianService {
         return "Password changed successfully";
     }
 
+    public LibrarianDTO updateLibrarianDetails(LibrarianUpdateDTO request, Long librarianId) {
+
+        Librarian librarian = getEntityById(librarianId);
+
+        validateUpdateData(request, librarian);
+
+        librarian.setUsername(request.username());
+        librarian.setWorkTime(request.workTime());
+        librarian.setUpdatedDate(LocalDateTime.now());
+
+        librarianRepository.save(librarian);
+
+        return librarianMapper.toDto(librarian);
+
+
+    }
 
     public void deleteLibrarianById(Long librarianId) {
 
@@ -137,6 +155,19 @@ public class LibrarianService {
 
         return librarianRepository.findByIdAndVisibleTrue(librarianId)
                 .orElseThrow(() -> new DataNotFoundException("Librarian not found with ID: " + librarianId));
+    }
+
+    private void validateUpdateData(LibrarianUpdateDTO requestDTO, Librarian existingLibrarian) {
+
+        if (!existingLibrarian.getUsername().equals(requestDTO.username())) {
+            if (isUserNameExist(requestDTO.username())) {
+                throw new DataExistsException("Librarian with username " + requestDTO.username() + " already exists");
+            }
+        }
+        if (requestDTO.workTime() == null) {
+            throw new IllegalArgumentException("working time cannot be null or empty");
+        }
+
     }
 
     private void validateRequestData(LibrarianRequestDTO requestDTO) {

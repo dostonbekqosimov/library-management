@@ -1,5 +1,6 @@
 package doston.code.controller;
 
+import doston.code.dto.request.LibrarianUpdateDTO;
 import doston.code.dto.request.PasswordUpdateDTO;
 import doston.code.dto.request.LibrarianRequestDTO;
 import doston.code.dto.response.LibrarianDTO;
@@ -48,6 +49,15 @@ public class LibrarianController {
         String response = librarianService.changePassword(request, librarianId);
         return ResponseEntity.ok().body(response);
     }
+
+    @PatchMapping("/admin/me/{id}")
+    public ResponseEntity<LibrarianDTO> updateLibrarianDetails(@RequestBody @Valid LibrarianUpdateDTO request,
+                                                         @PathVariable(value = "id") Long librarianId){
+
+        LibrarianDTO response = librarianService.updateLibrarianDetails(request, librarianId);
+        return ResponseEntity.ok().body(response);
+    }
+
 
 
     @DeleteMapping("/admin/{id}")
