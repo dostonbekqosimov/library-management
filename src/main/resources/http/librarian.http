@@ -19,6 +19,17 @@ GET http://localhost:8080/api/v1/librarians/<librarian_id>
 Content-Type: application/json
 Authorization: Bearer <token>
 
+### Update librarian username and work time(admin)
+PATCH http://localhost:8080/api/v1/librarians/admin/me/<librarian_ID>
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "username": "dono" ,
+  "workTime": "EVENING"
+}
+
+
 ### Change librarian password (if librarian id is provided we check for admin)
 PATCH http://localhost:8080/api/v1/librarians/me/password
 Content-Type: application/json
