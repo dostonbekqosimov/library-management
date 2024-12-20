@@ -19,7 +19,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Librarian> optional = librarianRepository.findByUsername(username);
+        Optional<Librarian> optional = librarianRepository.findByUsernameAndVisibleTrue(username);
 
         if (optional.isEmpty()){
             throw new UnauthorizedException("Login or password is wrong");

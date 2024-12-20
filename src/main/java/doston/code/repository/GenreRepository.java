@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface GenreRepository extends CrudRepository<Genre, Long> {
 
-    Boolean existsByTitle(String title);
+    Boolean existsByTitleAndVisibleTrue(String title);
 
-    List<Genre> findAllBy();
+    List<Genre> findAllByVisibleTrue();
 
     @Modifying
     @Transactional

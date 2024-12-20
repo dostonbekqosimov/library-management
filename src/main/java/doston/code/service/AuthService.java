@@ -26,7 +26,7 @@ public class AuthService {
     public JwtResponseDTO login(String username, String password) {
 
 
-        librarianRepository.findByUsername(username)
+        librarianRepository.findByUsernameAndVisibleTrue(username)
                 .orElseThrow(() -> new UnauthorizedException("Login or password is wrong"));
 
 

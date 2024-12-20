@@ -49,7 +49,7 @@ public class LibrarianService {
 
     public List<LibrarianDTO> getAllLibrarians() {
 
-        List<Librarian> librarians = librarianRepository.findAllBy();
+        List<Librarian> librarians = librarianRepository.findAllByVisibleTrue();
 
         return librarians.stream().map(librarianMapper::toDto).toList();
 
@@ -117,7 +117,7 @@ public class LibrarianService {
         if (userName == null || userName.trim().isEmpty()) {
             throw new IllegalArgumentException("username cannot be null or empty");
         }
-        return librarianRepository.existsByUsername(userName);
+        return librarianRepository.existsByUsernameAndVisibleTrue(userName);
     }
 
     public Boolean existsById(Long bookId) {
@@ -132,7 +132,7 @@ public class LibrarianService {
             throw new IllegalArgumentException("Librarian ID cannot be null");
         }
 
-        return librarianRepository.findById(librarianId)
+        return librarianRepository.findByIdAndVisibleTrue(librarianId)
                 .orElseThrow(() -> new DataNotFoundException("Librarian not found with ID: " + librarianId));
     }
 

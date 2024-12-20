@@ -4,14 +4,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,8 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
 
@@ -68,13 +63,14 @@ public class SpringSecurityConfig {
                     .requestMatchers(AUTH_WHITELIST).permitAll()
                     .requestMatchers("/api/v1/auth/login").permitAll()
 
+                    .requestMatchers("/api/v1/librarians/admin/**").hasRole("ADMIN")
+
                     .requestMatchers("/api/v1/librarians", "/api/v1/librarians/**").hasAnyRole("ADMIN", "LIBRARIAN")
                     .requestMatchers("/api/v1/genres", "/api/v1/genres/**").hasAnyRole("ADMIN", "LIBRARIAN")
                     .requestMatchers("/api/v1/authors", "/api/v1/authors/**").hasAnyRole("ADMIN", "LIBRARIAN")
                     .requestMatchers("/api/v1/authors", "/api/v1/books/**").hasAnyRole("ADMIN", "LIBRARIAN")
 
-                    // only for admin
-                    .requestMatchers("**/admin/**").hasRole("ADMIN")
+
 
 
                     .anyRequest().authenticated();
