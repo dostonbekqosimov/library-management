@@ -49,7 +49,6 @@ public class LoanService {
 
         Loan existingLoan = getEntityById(loanId);
 
-        validateLoanNotAlreadyReturned(existingLoan);
 
         existingLoan.setStatus(LoanStatus.RETURNED);
         existingLoan.setReturnDate(LocalDate.now());
@@ -116,11 +115,5 @@ public class LoanService {
 
         List<Loan> activeLoans = loanRepository.findByMemberIdAndStatus(memberId, LoanStatus.ISSUED);
         return activeLoans.stream().map(loanMapper::toDto).toList();
-    }
-
-    private void validateLoanNotAlreadyReturned(Loan loan) {
-        if (loan.getStatus() == LoanStatus.RETURNED) {
-            throw new BadRequestException("Book has already been returned");
-        }
     }
 }
