@@ -21,6 +21,7 @@ public class AuthService {
 
     private final LibrarianRepository librarianRepository;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
 
     public JwtResponseDTO login(String username, String password) {
@@ -39,9 +40,9 @@ public class AuthService {
                 CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
                 return new JwtResponseDTO(
-                        JwtUtil.encode(username, userDetails.getRole().toString()),
+                        jwtUtil.encode(username, userDetails.getRole().toString()),
                         "Bearer",
-                        JwtUtil.refreshToken(username, userDetails.getRole().toString()),
+                        jwtUtil.refreshToken(username, userDetails.getRole().toString()),
                         username,
                         List.of(userDetails.getRole().toString())
                 );
