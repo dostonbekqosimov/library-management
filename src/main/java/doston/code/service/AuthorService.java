@@ -8,6 +8,7 @@ import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.AuthorMapper;
 import doston.code.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,12 +16,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
 
     public AuthorResponseDTO createAuthor(AuthorRequestDTO authorRequestDTO) {
+        log.info("Creating new author with name: {} {}", authorRequestDTO.firstName(), authorRequestDTO.lastName());
 
         String firstName = authorRequestDTO.firstName();
         String lastName = authorRequestDTO.lastName();
@@ -32,18 +35,20 @@ public class AuthorService {
         newAuthor.setVisible(Boolean.TRUE);
 
         authorRepository.save(newAuthor);
-
+        log.info("Author created successfully with ID: {}", newAuthor.getId());
         return authorMapper.toDto(newAuthor);
     }
 
     public AuthorResponseDTO updateAuthorById(Long id, AuthorRequestDTO authorRequestDTO) {
 
+        log.info("Updating author with ID: {}", id);
         Author oldAuthor = getEntityById(id);
 
         String firstName = authorRequestDTO.firstName();
         String lastName = authorRequestDTO.lastName();
 
         if (firstName.equals(oldAuthor.getFirstName()) && lastName.equals(oldAuthor.getLastName())) {
+            log.info("No changes detected for author with ID: {}", id);
             return authorMapper.toDto(oldAuthor);
         }
 
@@ -54,30 +59,35 @@ public class AuthorService {
         oldAuthor.setUpdatedDate(LocalDateTime.now());
 
         authorRepository.save(oldAuthor);
-
+        log.info("Author updated successfully with ID: {}", oldAuthor.getId());
         return authorMapper.toDto(oldAuthor);
     }
 
     public List<AuthorResponseDTO> getAllAuthors() {
 
-        // buyoqda har doim bitta user borligiga empty ga tekshirmadim.
+        log.info("Retrieving all authors");
         List<Author> authors = authorRepository.findAllByVisibleTrue();
+        log.info("Retrieved {} authors", authors.size());
         return authors.stream().map(authorMapper::toDto).toList();
     }
 
     public AuthorResponseDTO getAuthorById(Long authorId) {
+
+        log.info("Retrieving author with ID: {}", authorId);
         Author author = getEntityById(authorId);
+        log.info("Author retrieved successfully: {}", author);
         return authorMapper.toDto(author);
     }
 
     public void deleteAuthorById(Long authorId) {
 
+        log.info("Attempting to delete author with ID: {}", authorId);
         if (existsById(authorId)) {
-
+            log.info("Author with ID: {} marked as invisible", authorId);
             authorRepository.changeVisibility(authorId);
 
         } else {
-
+            log.warn("Attempt to delete non-existent author with ID: {}", authorId);
             throw new DataNotFoundException("Author not found with ID: " + authorId);
         }
     }

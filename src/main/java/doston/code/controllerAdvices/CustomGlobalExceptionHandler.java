@@ -1,4 +1,4 @@
-package doston.code.config;
+package doston.code.controllerAdvices;
 
 
 import doston.code.exception.*;

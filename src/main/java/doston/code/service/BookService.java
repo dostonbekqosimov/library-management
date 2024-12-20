@@ -9,6 +9,7 @@ import doston.code.mapper.BookMapper;
 import doston.code.repository.BookRepository;
 import doston.code.repository.custom.CustomBookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -29,7 +31,7 @@ public class BookService {
     public BookResponseDTO addBook(BookRequestDTO requestDTO) {
 
         validateRequestData(requestDTO);
-
+        log.info("Adding new book with title: {}", requestDTO.title());
         Book newBook = bookMapper.toEntity(requestDTO);
 
         newBook.setCreatedDate(LocalDateTime.now());
@@ -37,6 +39,7 @@ public class BookService {
 
         bookRepository.save(newBook);
         Long newBookId = newBook.getId();
+        log.info("Successfully added book with ID: {}", newBookId);
 
         bookGenreService.merge(newBookId, requestDTO.genreIdList());
 
@@ -47,6 +50,7 @@ public class BookService {
 
 
     public BookResponseDTO updateBookById(Long bookId, BookRequestDTO requestDTO) {
+        log.info("Updating book with ID: {}", bookId);
 
         Book oldBook = getEntityById(bookId);
 
@@ -58,6 +62,7 @@ public class BookService {
         oldBook.setUpdatedDate(LocalDateTime.now());
 
         bookRepository.save(oldBook);
+        log.debug("Successfully updated book with ID: {}", bookId);
 
         bookGenreService.merge(bookId, requestDTO.genreIdList());
 
@@ -86,6 +91,7 @@ public class BookService {
     }
 
     public List<BookResponseDTO> searchBooks(String title, String author) {
+        log.debug("Searching books with title: {} and author: {}", title, author);
 
         if (title == null && author == null) {
             throw new IllegalArgumentException("At least title or author name should be given");
@@ -94,6 +100,7 @@ public class BookService {
         List<Book> books = customBookRepository.searchBooks(title, author);
 
         if (books.isEmpty()) {
+            log.debug("No books found matching title: {} and author: {}", title, author);
             throw new DataNotFoundException("No matched book found");
         }
         return books.stream()
@@ -104,7 +111,7 @@ public class BookService {
 
     public List<BookResponseDTO> filterBooks(BookFilterDTO filterDTO) {
 
-        //nimagadur check qilishim kerak
+        log.debug("Filtering books with criteria: {}", filterDTO);
 
 
         List<Book> books = customBookRepository.filter(filterDTO);
@@ -123,7 +130,9 @@ public class BookService {
     public void deleteBookById(Long bookId) {
 
         if (existsById(bookId)) {
+            log.info("Attempting to delete book with ID: {}", bookId);
             bookRepository.changeVisibility(bookId);
+            log.info("Successfully deleted book with ID: {}", bookId);
         } else {
             throw new DataNotFoundException("Book not found with ID: " + bookId);
         }
@@ -150,12 +159,15 @@ public class BookService {
 
     private void validateRequestData(BookRequestDTO requestDTO) {
 
+        log.debug("Validating book request data: {}", requestDTO);
 
         if (!authorService.existsById(requestDTO.authorId())) {
+            log.warn("Author not found with ID: {}", requestDTO.authorId());
             throw new DataNotFoundException("Author not found with ID: " + requestDTO.authorId());
         }
 
         if (!genreService.existsByIdList(requestDTO.genreIdList())) {
+            log.warn("One or more genres not found for IDs: {}", requestDTO.genreIdList());
             throw new DataNotFoundException("One or more genres not found for IDs: " + requestDTO.genreIdList());
         }
 
