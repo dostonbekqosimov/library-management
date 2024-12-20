@@ -9,12 +9,12 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface AuthorRepository extends CrudRepository<Author, Long> {
-    List<Author> findAllBy();
+    List<Author> findAllByVisibleTrue();
 
     @Modifying
     @Transactional
     @Query("update Author a set a.visible = false where a.id = :authorId")
     void changeVisibility(Long authorId);
 
-    Boolean existsByFirstNameAndLastName(String firstName, String lastName);
+    Boolean existsByFirstNameAndLastNameAndVisibleTrue(String firstName, String lastName);
 }

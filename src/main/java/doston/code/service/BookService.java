@@ -8,13 +8,11 @@ import doston.code.exception.DataNotFoundException;
 import doston.code.mapper.BookMapper;
 import doston.code.repository.BookRepository;
 import doston.code.repository.custom.CustomBookRepository;
-import io.jsonwebtoken.lang.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,7 +68,7 @@ public class BookService {
 
     public List<BookResponseDTO> getAllBooks() {
 
-        List<Book> books = bookRepository.findAllBy();
+        List<Book> books = bookRepository.findAllByVisibleTrue();
 
         if (books.isEmpty()) {
             throw new DataNotFoundException("There is no available book");

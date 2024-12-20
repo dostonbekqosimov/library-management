@@ -12,14 +12,16 @@ import java.util.Optional;
 
 public interface LibrarianRepository extends CrudRepository<Librarian, Long> {
 
-    Optional<Librarian> findByUsername(String username);
+    Optional<Librarian> findByUsernameAndVisibleTrue(String username);
 
-   List<Librarian> findAllBy();
+    List<Librarian> findAllByVisibleTrue();
 
-    Boolean existsByUsername(String userName);
+    Boolean existsByUsernameAndVisibleTrue(String userName);
 
     @Modifying
     @Transactional
     @Query("update Librarian p set p.visible = false where p.id = :profileId")
     void changeVisibility(@Param("profileId") Long profileId);
+
+    Optional<Librarian> findByIdAndVisibleTrue(Long id);
 }

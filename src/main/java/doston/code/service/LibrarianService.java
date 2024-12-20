@@ -49,7 +49,7 @@ public class LibrarianService {
 
     public List<LibrarianDTO> getAllLibrarians() {
 
-        List<Librarian> librarians = librarianRepository.findAllBy();
+        List<Librarian> librarians = librarianRepository.findAllByVisibleTrue();
 
         return librarians.stream().map(librarianMapper::toDto).toList();
 
@@ -70,6 +70,10 @@ public class LibrarianService {
         Long currentUserId = getCurrentUserId();
 
         Librarian entity = getEntityById(currentUserId);
+
+        if (!currentUserId.equals(entity.getId())){
+            throw new ForbiddenException("Unauthorized action: You cannot change another librarian's password.");
+        }
 
         validatePasswordChange(request, entity);
         entity.setPassword(passwordEncoder.encode(request.newPassword()));
@@ -105,6 +109,7 @@ public class LibrarianService {
         }
     }
 
+
     private void validateAdminAccess() {
         if (getCurrentUserRole() != ProfileRole.ROLE_ADMIN) {
             throw new ForbiddenException("You aren't authorized to do this.");
@@ -117,7 +122,7 @@ public class LibrarianService {
         if (userName == null || userName.trim().isEmpty()) {
             throw new IllegalArgumentException("username cannot be null or empty");
         }
-        return librarianRepository.existsByUsername(userName);
+        return librarianRepository.existsByUsernameAndVisibleTrue(userName);
     }
 
     public Boolean existsById(Long bookId) {
@@ -132,7 +137,7 @@ public class LibrarianService {
             throw new IllegalArgumentException("Librarian ID cannot be null");
         }
 
-        return librarianRepository.findById(librarianId)
+        return librarianRepository.findByIdAndVisibleTrue(librarianId)
                 .orElseThrow(() -> new DataNotFoundException("Librarian not found with ID: " + librarianId));
     }
 

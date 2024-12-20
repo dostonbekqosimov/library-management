@@ -57,7 +57,7 @@ public class GenreService {
 
     public List<GenreResponseDTO> getAllGenres() {
 
-        List<Genre> librarians = genreRepository.findAllBy();
+        List<Genre> librarians = genreRepository.findAllByVisibleTrue();
 
         return librarians.stream().map(genreMapper::toDto).toList();
     }
@@ -108,7 +108,7 @@ public class GenreService {
         if (title == null || title.trim().isEmpty()) {
             throw new IllegalArgumentException("genre title cannot be null or empty");
         }
-        return genreRepository.existsByTitle(title);
+        return genreRepository.existsByTitleAndVisibleTrue(title);
     }
 
     private Genre getEntityById(Long genreId) {

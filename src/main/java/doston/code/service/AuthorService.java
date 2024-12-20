@@ -61,7 +61,7 @@ public class AuthorService {
     public List<AuthorResponseDTO> getAllAuthors() {
 
         // buyoqda har doim bitta user borligiga empty ga tekshirmadim.
-        List<Author> authors = authorRepository.findAllBy();
+        List<Author> authors = authorRepository.findAllByVisibleTrue();
         return authors.stream().map(authorMapper::toDto).toList();
     }
 
@@ -99,7 +99,7 @@ public class AuthorService {
             throw new IllegalArgumentException("Author name cannot be null or empty");
         }
 
-        return authorRepository.existsByFirstNameAndLastName(firstName, lastName);
+        return authorRepository.existsByFirstNameAndLastNameAndVisibleTrue(firstName, lastName);
     }
 
     private Author getEntityById(Long authorId) {
