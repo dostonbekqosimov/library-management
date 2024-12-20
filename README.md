@@ -3,10 +3,14 @@
 This project is a backend service for managing books, authors, genres, librarians, and library members. It supports robust search and filtering functionalities along with user authentication and authorization.
 
 
-## Environment Variables
+## Environment Variables:
 
-Sensitive data like database credentials, JWT keys, and other security configurations are stored in a `.env` file. Make sure to create a `.env` file in the root directory with the structure like `.env.example`
+- Sensitive data like database credentials, JWT keys, and other security configurations are stored in a `.env` file. Make sure to create a `.env` file in the root directory with the structure like `.env.example`
 
+
+## Attention:
+- Bearer token is required in the Authorization header for all requests.
+  - Example: `Authorization: Bearer <token>` in IntelliJ IDEA `.http` file
 
 
 ## Features
@@ -222,10 +226,23 @@ Sensitive data like database credentials, JWT keys, and other security configura
 - **Update Password**: `PATCH /api/v1/librarians/me/password`
 
     - Allows a librarian to update their password.
+    - If librarian ID is provided we check for admin
 
-- **Delete a Librarian**: `DELETE /api/v1/librarians/admin/{id}`
+  Example request:
+    ```json
+    {
+      
+  "oldPassword": "2",
+  "newPassword": "3",
+  "confirmPassword": "3"
 
-    - Allows an admin to delete a librarian account.
+    }
+    ```
+
+- **Delete a Librarian by ID**: `DELETE /api/v1/librarians/{librarian_ID}`
+  - Deletes a specific library member by ID.
+  - Only ADMIN can do that
+  
 
 ### Member Management
 

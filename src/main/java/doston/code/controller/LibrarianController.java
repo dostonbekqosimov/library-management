@@ -42,20 +42,13 @@ public class LibrarianController {
     }
 
     @PatchMapping("/me/password")
-    public ResponseEntity<String> changeOwnPassword(@RequestBody @Valid PasswordUpdateDTO request) {
+    public ResponseEntity<String> changePassword(@RequestBody @Valid PasswordUpdateDTO request,
+                                                 @RequestParam(value = "librarianId", required = false) Long librarianId) {
 
-        String response = librarianService.changeOwnPassword(request);
+        String response = librarianService.changePassword(request, librarianId);
         return ResponseEntity.ok().body(response);
     }
 
-    // shuni spring securitydan to'g'irlash kerak
-    @PatchMapping("/admin/{id}/password")
-    public ResponseEntity<String> resetPasswordByAdmin(@RequestBody @Valid PasswordUpdateDTO request,
-                                                       @PathVariable("id") Long librarianId) {
-
-        String response = librarianService.resetPasswordByAdmin(request, librarianId);
-        return ResponseEntity.ok().body(response);
-    }
 
     @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> deleteLibrarianById(@PathVariable("id") Long librarianId){
