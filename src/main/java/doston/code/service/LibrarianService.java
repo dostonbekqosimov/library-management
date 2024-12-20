@@ -71,6 +71,10 @@ public class LibrarianService {
 
         Librarian entity = getEntityById(currentUserId);
 
+        if (!currentUserId.equals(entity.getId())){
+            throw new ForbiddenException("Unauthorized action: You cannot change another librarian's password.");
+        }
+
         validatePasswordChange(request, entity);
         entity.setPassword(passwordEncoder.encode(request.newPassword()));
         librarianRepository.save(entity);
@@ -104,6 +108,7 @@ public class LibrarianService {
 
         }
     }
+
 
     private void validateAdminAccess() {
         if (getCurrentUserRole() != ProfileRole.ROLE_ADMIN) {

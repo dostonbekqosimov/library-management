@@ -68,7 +68,8 @@ public class SpringSecurityConfig {
                     .requestMatchers("/api/v1/librarians", "/api/v1/librarians/**").hasAnyRole("ADMIN", "LIBRARIAN")
                     .requestMatchers("/api/v1/genres", "/api/v1/genres/**").hasAnyRole("ADMIN", "LIBRARIAN")
                     .requestMatchers("/api/v1/authors", "/api/v1/authors/**").hasAnyRole("ADMIN", "LIBRARIAN")
-                    .requestMatchers("/api/v1/authors", "/api/v1/books/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                    .requestMatchers("/api/v1/books", "/api/v1/books/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                    .requestMatchers("/api/v1/members", "/api/v1/members/**").hasAnyRole("ADMIN", "LIBRARIAN")
 
 
 
@@ -88,8 +89,8 @@ public class SpringSecurityConfig {
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/**", configuration);
             httpSecurityCorsConfigurer.configurationSource(source);
-        }).exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")));
 
+        });
 
         return http.build();
 

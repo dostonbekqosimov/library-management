@@ -8,6 +8,7 @@ import doston.code.exception.UnauthorizedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +44,12 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<?> exceptionHandler(UnauthorizedException e) {
         return ResponseEntity.status(401).body(e.getMessage());
     }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> exceptionHandler(UsernameNotFoundException e) {
+        return ResponseEntity.status(401).body(e.getMessage());
+    }
+
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<?> exceptionHandler(ForbiddenException e) {
