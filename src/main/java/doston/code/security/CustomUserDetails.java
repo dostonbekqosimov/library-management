@@ -36,7 +36,6 @@ public class CustomUserDetails implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.name()));
 
-        System.out.println("Role from enum: " + role.name());
         return authorities;
     }
     @Override
