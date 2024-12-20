@@ -1,11 +1,16 @@
 package doston.code.service;
 
 
+import doston.code.dto.JwtDTO;
+import doston.code.dto.request.TokenRefreshRequestDTO;
 import doston.code.dto.response.JwtResponseDTO;
+import doston.code.dto.response.TokenRefreshResponseDTO;
 import doston.code.exception.UnauthorizedException;
 import doston.code.repository.LibrarianRepository;
 import doston.code.security.CustomUserDetails;
 import doston.code.util.JwtUtil;
+import io.jsonwebtoken.JwtException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -54,5 +59,29 @@ public class AuthService {
         }
     }
 
+
+    public TokenRefreshResponseDTO getNewAccessToken(TokenRefreshRequestDTO dto) {
+
+        JwtUtil.TokenValidationResult validationResult = jwtUtil.validateToken(dto.refreshToken());
+
+        if (!validationResult.valid()) {
+            throw new UnauthorizedException(validationResult.message());
+        }
+
+        try {
+
+            JwtDTO jwtDTO = jwtUtil.decode(dto.refreshToken());
+
+            librarianRepository.findByUsernameAndVisibleTrue(jwtDTO.login())
+                    .orElseThrow(() -> new UnauthorizedException("Account is no longer active"));
+
+            String newAccessToken = jwtUtil.encode(jwtDTO.login(), jwtDTO.role());
+
+            return new TokenRefreshResponseDTO(newAccessToken, dto.refreshToken());
+
+        } catch (JwtException e) {
+            throw new UnauthorizedException("Invalid refresh token");
+        }
+    }
 
 }

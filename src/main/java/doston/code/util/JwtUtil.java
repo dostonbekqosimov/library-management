@@ -94,4 +94,6 @@ public class JwtUtil {
 
     public record TokenValidationResult(boolean valid, String message) {
     }
+
+
 }
