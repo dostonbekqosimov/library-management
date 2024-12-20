@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
-    BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "title", target = "title")

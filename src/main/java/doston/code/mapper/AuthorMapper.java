@@ -11,7 +11,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
-    AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
 
     @Mapping(source = "id", target = "id")
     @Mapping(source = "firstName", target = "firstName")

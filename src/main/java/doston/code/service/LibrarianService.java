@@ -60,7 +60,7 @@ public class LibrarianService {
 
         Librarian librarian = getEntityById(librarianId);
 
-        return LibrarianMapper.INSTANCE.toDto(librarian);
+        return librarianMapper.toDto(librarian);
 
 
     }
